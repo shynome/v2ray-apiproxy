@@ -1,0 +1,79 @@
+// Config file of V2Ray. This file follows standard JSON format, with comments support.
+// Uncomment entries below to satisfy your needs. Also read our manual for more detail at
+// https://www.v2ray.com/
+{
+  "log": {
+    // By default, V2Ray writes access log to stdout.
+    // "access": "/path/to/access/log/file",
+
+    // By default, V2Ray write error log to stdout.
+    // "error": "/path/to/error/log/file",
+
+    // Log level, one of "debug", "info", "warning", "error", "none"
+    "loglevel": "info"
+  },
+  // List of inbound proxy configurations.
+  "inbounds": [
+    {
+      "port": 5001, // 服务器监听端口
+      "protocol": "vmess",    // 主传入协议1
+      "settings": {
+        "clients": [
+          {
+            "id": "5150d306-1e89-492b-a5ca-c11fa9fe0c06",  // 用户 ID，客户端与服务器必须相同
+            "email": "api@v2ray.grpc",
+            "alterId": 64
+          },
+          {
+            "id": "cb3e64a7-cf62-433b-ae8c-e8549408243c",  // 用户 ID，客户端与服务器必须相同
+            "alterId": 64
+          }
+        ]
+      }
+    },
+    {
+      "port": 5002, // 服务器监听端口
+      "protocol": "vmess",    // 主传入协议1
+      "tag": "main",
+      "settings": {
+        "clients":[]
+      }
+    }
+  ],
+  // List of outbound proxy configurations.
+  "outbounds": [{
+    // Protocol name of the outbound proxy.
+    "protocol": "freedom",
+
+    // Settings of the protocol. Varies based on protocol.
+    "settings": {},
+
+    // Tag of the outbound. May be used for routing.
+    "tag": "direct"
+  },{
+    "protocol": "blackhole",
+    "settings": {},
+    "tag": "blocked"
+  }], 
+
+  // Routing controls how traffic from inbounds are sent to outbounds.
+  "routing": {
+    "domainStrategy": "IPOnDemand",
+    "rules":[
+      { "type": "field", "user": ["api@v2ray.grpc"], "outboundTag": "api" }
+    ]
+  },
+
+  // Api enables gRPC APIs for external programs to communicate with V2Ray instance.
+  "api": {
+    "tag": "api",
+    "services": [
+     "HandlerService",
+     "LoggerService",
+     "StatsService"
+    ]
+  },
+
+  // You may add other entries to the configuration, but they will not be recognized by V2Ray.
+  "other": {}
+}
