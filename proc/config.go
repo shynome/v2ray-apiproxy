@@ -17,9 +17,9 @@ import (
 
 const (
 	// TagAPIPorxy tag+cursor like `apiproxy-2`
-	TagAPIPorxy  string = "apiproxy-"
-	tagControler string = "controller"
-	tagTest      string = "test"
+	TagAPIPorxy  = "apiproxy-"
+	tagControler = "controller"
+	tagTest      = "test"
 )
 
 func withDefaultApps(config *core.Config) *core.Config {
