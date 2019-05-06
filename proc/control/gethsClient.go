@@ -1,4 +1,4 @@
-package controller
+package control
 
 import (
 	"fmt"
@@ -9,7 +9,9 @@ import (
 
 func (ctrol *Controller) gethsClient() (hsClient command.HandlerServiceClient, err error) {
 
-	addr := fmt.Sprintf("127.0.0.1:%v", ctrol.PortController)
+	proc := &ctrol.proc
+
+	addr := fmt.Sprintf("127.0.0.1:%v", proc.PortController)
 
 	cc, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {

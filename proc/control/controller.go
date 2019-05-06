@@ -1,4 +1,4 @@
-package controller
+package control
 
 import (
 	"github.com/shynome/v2ray-apiproxy/proc"
@@ -6,5 +6,5 @@ import (
 
 // Controller v2ray proc
 type Controller struct {
-	proc.Proc
+	proc proc.Proc
 }
