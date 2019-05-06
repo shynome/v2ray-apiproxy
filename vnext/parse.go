@@ -8,8 +8,8 @@ import (
 )
 
 // New vnext string
-func New(vnextStr string) (vnext *VNEXT, err error) {
-	s := strings.Split(vnextStr, "://")
+func New(shareStr string) (vnext *VNEXT, err error) {
+	s := strings.Split(shareStr, "://")
 	if s[0] != "vmess" {
 		err = errors.New("只支持 vmess 协议")
 		return
