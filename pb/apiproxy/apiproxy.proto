@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package apiproxy;
+
+message APIProxy {
+  string VNext = 1;
+  message Response {
+  }
+}
+
+service V2rayAPIProxy {
+  
+  rpc Add (APIProxy) returns (APIProxy.Response);
+  rpc Remove (APIProxy) returns (APIProxy.Response);
+
+}
