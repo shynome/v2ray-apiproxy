@@ -36,8 +36,12 @@ func (ctrol *Controller) runAPIProxyProc() (chanErr chan error) {
 	chanErr = make(chan error, 1)
 
 	if err := ctrol.proc.Wait(); err != nil {
+		ctrol.procExitError = err
 		chanErr <- err
 	}
 
+	ctrol.procExited = true
+
 	return
+
 }

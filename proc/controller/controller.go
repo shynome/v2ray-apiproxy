@@ -10,7 +10,8 @@ import (
 type Controller struct {
 	Info          apiproxy.ProcInfo
 	proc          *exec.Cmd
-	procChanError chan error
+	procExitError error
+	procExited    bool
 }
 
 // Options of run proc
@@ -23,7 +24,7 @@ type Options struct {
 func New(options Options) *Controller {
 
 	ctrol := &Controller{
-		procChanError: make(chan error),
+		procExited: false,
 	}
 
 	ctrol.Info = apiproxy.ProcInfo{
