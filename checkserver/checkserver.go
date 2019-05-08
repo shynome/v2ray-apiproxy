@@ -44,13 +44,18 @@ func New(config Config) (checkServer *CheckServer) {
 	return
 }
 
-func (server *CheckServer) checkIsReady() (chanErr chan error) {
+func (server *CheckServer) checkIsReady(needCheckPort uint16) (chanErr chan error) {
 
 	chanErr = make(chan error, 1)
 	client := &http.Client{Timeout: time.Second}
-	checkURL := fmt.Sprintf("http://%v", server.HTTPServer.Addr)
+	var checkURL string
+	if needCheckPort == 0 {
+		checkURL = fmt.Sprintf("http://%v", server.HTTPServer.Addr)
+	} else {
+		checkURL = fmt.Sprintf("http://127.0.0.1:%v", needCheckPort)
+	}
 	c := 0
-	t := time.Duration(2)
+	t := time.Duration(3 / 2)
 	for ; c < 5; c++ {
 		time.Sleep(t * time.Second)
 		resp, err := client.Get(checkURL)
@@ -84,7 +89,7 @@ func (server *CheckServer) Run() (err error) {
 	go server.startHTTPServer()
 
 	select {
-	case err = <-server.checkIsReady():
+	case err = <-server.checkIsReady(0):
 	case err = <-server.HTTPServerError:
 	}
 	if err != nil {
