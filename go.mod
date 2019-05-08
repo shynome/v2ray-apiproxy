@@ -5,7 +5,10 @@ go 1.12
 require (
 	github.com/golang/protobuf v1.3.1
 	github.com/google/uuid v1.1.1
-	google.golang.org/genproto v0.0.0-20180831171423-11092d34479b // indirect
+	golang.org/x/net v0.0.0-20190206173232-65e2d4e15006
+	golang.org/x/tools v0.0.0-20180928181343-b3c0be4c978b // indirect
 	google.golang.org/grpc v1.18.0
-	v2ray.com/core v0.0.0-20190228193754-8f6637b82437 // 4.18 的版本，但不知道为什么不显示版本号
+	v2ray.com/core v4.14.2+incompatible
 )
+
+replace v2ray.com/core v4.14.2+incompatible => github.com/shynome/v2ray-go-grpc-sdk v0.0.0-20190213051928-a726c184a649
