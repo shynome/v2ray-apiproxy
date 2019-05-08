@@ -5,6 +5,7 @@ package apiproxy;
 message APIProxy {
   string VNext = 1;
   message Response {
+    uint32 Port = 1;
   }
 }
 
