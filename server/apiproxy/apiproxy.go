@@ -5,19 +5,21 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	core "github.com/shynome/v2ray-apiproxy"
 	api "github.com/shynome/v2ray-apiproxy/pb/apiproxy"
 )
 
 // Server define
 type Server struct {
+	core.Config
 }
 
 // Add v2ray apiproxy
 func (s *Server) Add(ctx context.Context, req *api.APIProxy) (*api.APIProxy_Response, error) {
+
 	return &api.APIProxy_Response{
 		Port: uint32(0),
 	}, nil
-
 }
 
 // Remove v2ray apiproxy
