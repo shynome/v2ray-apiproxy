@@ -6,10 +6,13 @@ type Config struct {
 	PortRange uint16
 }
 
-// Proc info
-type Proc struct {
+// ProcInfo of controller
+type ProcInfo struct {
 	Config
-	PortCursor uint16
+	PortController  uint16
+	PortTest        uint16
+	PortCheckServer uint16
+	PortCursor      uint16
 }
 
 // APIEmail common api email

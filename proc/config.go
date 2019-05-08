@@ -1,6 +1,7 @@
 package proc
 
 import (
+	apiproxy "github.com/shynome/v2ray-apiproxy"
 	"v2ray.com/core"
 	"v2ray.com/core/app/commander"
 	"v2ray.com/core/app/dispatcher"
@@ -48,7 +49,7 @@ func NewDokoInbound(tag string, listenAddress net.Address, portIn, portOut uint1
 }
 
 // GetV2rayConf get a v2ray running proto confing
-func GetV2rayConf(proc Proc) *core.Config {
+func NewV2rayConf(proc apiproxy.ProcInfo) *core.Config {
 
 	rules := []*router.RoutingRule{
 		&router.RoutingRule{InboundTag: []string{tagControler}, TargetTag: &router.RoutingRule_Tag{Tag: tagControler}},

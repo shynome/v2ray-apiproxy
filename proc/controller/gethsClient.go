@@ -1,4 +1,4 @@
-package control
+package controller
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 
 func (ctrol *Controller) gethsClient() (hsClient command.HandlerServiceClient, err error) {
 
-	proc := &ctrol.proc
+	proc := &ctrol.Info
 
 	addr := fmt.Sprintf("127.0.0.1:%v", proc.PortController)
 
