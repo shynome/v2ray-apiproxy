@@ -50,10 +50,10 @@ func (ctrol *Controller) runAPIProxyProc() (chanErr chan error) {
 	// golang 是同步的，所以有阻塞进程的命令得放到线程里跑
 	go func() {
 		if err := ctrol.proc.Wait(); err != nil {
-			ctrol.procExitError = err
+			ctrol.ProcExitError = err
 			chanErr <- err
 		}
-		ctrol.procExited = true
+		ctrol.ProcExited = true
 	}()
 
 	return
