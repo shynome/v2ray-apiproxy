@@ -25,15 +25,11 @@ type Config struct {
 // New CheckServer
 func New(config Config) (checkServer *CheckServer) {
 
-	resp := UUID.New().String()
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		w.Write([]byte(resp))
-	})
 
 	checkServer = &CheckServer{
 		Port: config.Port,
-		Resp: resp,
+		Resp: UUID.New().String(),
 		HTTPServer: &http.Server{
 			Addr:    fmt.Sprintf("127.0.0.1:%v", config.Port),
 			Handler: mux,
@@ -41,19 +37,19 @@ func New(config Config) (checkServer *CheckServer) {
 		HTTPServerError: make(chan error),
 	}
 
+	mux.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		w.Write([]byte(checkServer.Resp))
+	})
+
 	return
 }
 
-func (server *CheckServer) checkIsReady(needCheckPort uint16, maxTryTimes uint) (chanErr chan error) {
+// CheckPortIsReady check port
+func CheckPortIsReady(needCheckPort uint16, Resp string, maxTryTimes uint) (chanErr chan error) {
 
 	chanErr = make(chan error, 1)
 	client := &http.Client{Timeout: time.Second}
-	var checkURL string
-	if needCheckPort == 0 {
-		checkURL = fmt.Sprintf("http://%v", server.HTTPServer.Addr)
-	} else {
-		checkURL = fmt.Sprintf("http://127.0.0.1:%v", needCheckPort)
-	}
+	var checkURL = fmt.Sprintf("http://127.0.0.1:%v", needCheckPort)
 	c := uint(0)
 	t := time.Duration(3 / 2)
 	for ; c < maxTryTimes; c++ {
@@ -69,7 +65,7 @@ func (server *CheckServer) checkIsReady(needCheckPort uint16, maxTryTimes uint) 
 			chanErr <- err
 			return
 		}
-		if string(body) == server.Resp {
+		if string(body) == Resp {
 			chanErr <- nil
 			return
 		}
@@ -89,7 +85,7 @@ func (server *CheckServer) Run() (err error) {
 	go server.startHTTPServer()
 
 	select {
-	case err = <-server.checkIsReady(0, 5):
+	case err = <-CheckPortIsReady(server.Port, server.Resp, 5):
 	case err = <-server.HTTPServerError:
 	}
 	if err != nil {
@@ -98,4 +94,9 @@ func (server *CheckServer) Run() (err error) {
 
 	return
 
+}
+
+// Close check server
+func (server *CheckServer) Close() (err error) {
+	return server.HTTPServer.Close()
 }
