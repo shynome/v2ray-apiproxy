@@ -35,7 +35,7 @@ func New(options Options) *Controller {
 		PortCheckServer: options.PortCheckServer,
 		PortController:  options.PortStart,
 		PortTest:        options.PortStart + 1,
-		PortCursor:      options.PortStart + 1,
+		PortCursor:      2,
 	}
 
 	return ctrol

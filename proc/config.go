@@ -48,7 +48,7 @@ func NewDokoInbound(tag string, listenAddress net.Address, portIn, portOut uint1
 
 }
 
-// GetV2rayConf get a v2ray running proto confing
+// NewV2rayConf get a new v2ray running confing
 func NewV2rayConf(proc apiproxy.ProcInfo) *core.Config {
 
 	rules := []*router.RoutingRule{
@@ -57,9 +57,9 @@ func NewV2rayConf(proc apiproxy.ProcInfo) *core.Config {
 
 	inbounds := []*core.InboundHandlerConfig{
 		// controller inbound
-		NewDokoInbound(tagControler, net.LocalHostIP, proc.PortController, proc.PortController),
+		NewDokoInbound(tagControler, net.LocalHostIP, proc.PortController, proc.PortCheckServer),
 		// test inbound
-		NewDokoInbound(tagTest, net.LocalHostIP, proc.PortController, proc.PortCheckServer),
+		NewDokoInbound(tagTest, net.LocalHostIP, proc.PortTest, proc.PortCheckServer),
 	}
 
 	for s := proc.PortCursor; s < proc.PortRange; s++ {
